@@ -16,7 +16,13 @@ import { toast } from "sonner";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { useCreateMedication } from "@/lib/api/medications/useCreateMedication";
 
-export default function AddMedicationModel() {
+interface AddMedicationModelProps {
+	displayTitle?: string;
+}
+
+export default function AddMedicationModel({
+	displayTitle,
+}: AddMedicationModelProps) {
 	const [isOpen, setIsOpen] = React.useState(false);
 	const [name, setName] = React.useState("");
 	const [dosage, setDosage] = React.useState("");
@@ -52,8 +58,14 @@ export default function AddMedicationModel() {
 					aria-label="Add Medication"
 					className="bg-sky-500 hover:bg-sky-600 transition-colors duration-200 cursor-pointer text-white flex items-center space-x-1 hover:text-white"
 				>
-					<IoIosAddCircleOutline size={20} strokeWidth={20} />
-					<p>Add New Medication</p>
+					{displayTitle ? (
+						<span className="text-sm">{displayTitle}</span>
+					) : (
+						<>
+							<IoIosAddCircleOutline size={20} strokeWidth={20} />
+							<p>Add New Medication</p>
+						</>
+					)}
 				</Button>
 			</DialogTrigger>
 			<DialogContent>

@@ -1,10 +1,39 @@
+"use client";
+
 import React from "react";
+import AssignmentCard from "@/components/pages/assignments/AssignmentCard";
+import { useAssignments } from "@/lib/api/assignments/useAssignment";
 
 export default function AssignmentsPage() {
-	return (
-		<div className="p-6">
-			<h1 className="text-2xl font-bold mb-4">Assignments</h1>
-			<p className="text-gray-600">This is the assignments page.</p>
-		</div>
-	);
+	const { data: assignments, isLoading } = useAssignments();
+
+	if (isLoading) {
+		return (
+			<p className="text-gray-500 text-center">Loading assignments...</p>
+		);
+	} else if (assignments?.length === 0) {
+		return (
+			<div className="text-center p-4">
+				<p className="text-gray-500">No assignments found.</p>
+				<p className="text-gray-500">
+					Please add some assignments to get started.
+				</p>
+			</div>
+		);
+	} else {
+		return (
+			<>
+				<div className="mb-6">
+					<h1 className="text-2xl font-bold text-stone-900">
+						List of Assignments
+					</h1>
+				</div>
+				<div className="flex flex-col space-y-4">
+					{assignments?.map((assignment) => (
+						<AssignmentCard key={assignment.id} {...assignment} />
+					))}
+				</div>
+			</>
+		);
+	}
 }
