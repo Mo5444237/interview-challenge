@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { useMedications } from "@/lib/api/medications/useMutation";
+import { useMedications } from "@/lib/api/medications/useMedication";
 import {
 	Select,
 	SelectContent,

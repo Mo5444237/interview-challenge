@@ -2,10 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { apiFetch } from "@/lib/api/fetcher";
 import { Medication } from "@/types";
 
-export function useMedications() {
+export function useMedications(searchTerm?: string) {
 	return useQuery<Medication[]>({
-		queryKey: ["medications"],
-		queryFn: () => apiFetch("/medication"),
+		queryKey: ["medications", searchTerm],
+		queryFn: () =>
+			apiFetch(
+				"/medication?searchTerm=" + encodeURIComponent(searchTerm || "")
+			),
 	});
 }
 
