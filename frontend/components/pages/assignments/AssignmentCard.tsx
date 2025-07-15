@@ -33,11 +33,13 @@ export default function AssignmentCard(assignment: Assignment) {
 
 			<div className="flex justify-between">
 				<div className="flex flex-col space-y-2 border-l-3 border-l-amber-500 pl-2 flex-1">
-					<h3 className="text-lg font-semibold text-stone-900">
-						Medication: {assignment.medication.name}
+					<div className="flex items-center space-x-2 flex-wrap">
+						<h3 className="text-lg font-semibold text-stone-900">
+							Medication: {assignment.medication.name}
+						</h3>
 						<span
 							className={cn(
-								"py-1 px-2 rounded-full ml-2 text-xs font-medium",
+								"py-1 px-2 rounded-full text-xs font-medium",
 								isAssignmentDone
 									? "bg-green-100 text-green-600 hover:bg-green-200 duration-200"
 									: "bg-amber-100 text-yellow-600 hover:bg-amber-200 duration-200"
@@ -50,9 +52,9 @@ export default function AssignmentCard(assignment: Assignment) {
 								? ""
 								: `(${assignment.remainingDays} days left)`}
 						</span>
-					</h3>
-					<div className="flex justify-between">
-						<div className="flex flex-col flex-1">
+					</div>
+					<div className="flex justify-between gap-4 flex-wrap">
+						<div className="flex flex-col flex-1 text-nowrap">
 							<p className="text-gray-500">
 								Dosage: {assignment.medication.dosage}
 							</p>
@@ -60,7 +62,7 @@ export default function AssignmentCard(assignment: Assignment) {
 								Frequency: {assignment.medication.frequency}
 							</p>
 						</div>
-						<div className="flex flex-col flex-1">
+						<div className="flex flex-col flex-1 text-nowrap">
 							<p className="text-gray-500">
 								Start Date: {formatDate(assignment.startDate)}
 							</p>

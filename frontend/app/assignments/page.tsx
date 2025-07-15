@@ -23,10 +23,13 @@ export default function AssignmentsPage() {
 	} else {
 		return (
 			<>
-				<div className="mb-6">
+				<div className="mb-6 flex items-center space-x-2 flex-wrap">
 					<h1 className="text-2xl font-bold text-stone-900">
 						List of Assignments
 					</h1>
+					<span className="text-sm font-semibold text-gray-500">
+						({assignments?.length} assignments)
+					</span>
 				</div>
 				<div className="flex flex-col space-y-4">
 					{assignments?.map((assignment) => (

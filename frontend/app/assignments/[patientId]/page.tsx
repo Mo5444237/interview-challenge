@@ -32,7 +32,7 @@ export default function PatientAssignments({
 	} else {
 		return (
 			<div>
-				<div className="flex items-center justify-between mb-6">
+				<div className="flex items-center justify-between mb-6 gap-2 flex-wrap">
 					<h1 className="text-2xl font-bold text-stone-900">
 						Assignments for{" "}
 						{assignments && assignments[0].patient.name}
