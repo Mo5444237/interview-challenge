@@ -42,7 +42,6 @@ export class AssignmentService {
   }
 
   async findAll(): Promise<Assignment[]> {
-    
     const assignments = await this.assignmentRepository.find({
       relations: ['patient', 'medication'],
     });
@@ -56,7 +55,7 @@ export class AssignmentService {
       remainingDays: this.calculateRemainingDays(
         assignment.startDate,
         assignment.days,
-      )
+      ),
     }));
   }
 
@@ -67,10 +66,10 @@ export class AssignmentService {
       where: { patient: { id: patientId } },
     });
 
-    if (!assignments.length)
-      throw new NotFoundException(
-        `No assignments found for patient ID ${patientId}`,
-      );
+    // handle no assignments case gracefully
+    if (!assignments || assignments.length === 0) {
+      return [];
+    }
 
     return assignments.map((assignment) => ({
       id: assignment.id,

@@ -5,8 +5,8 @@ import { toast } from "sonner";
 type CreateAssignment = {
 	patientId: string;
 	medicationId: string;
-	dosage: string;
-	frequency: string;
+	startDate: string;
+	days: number;
 };
 
 export function useCreateAssignment() {
