@@ -1,10 +1,84 @@
-import React from "react";
+"use client";
+
+import {
+	Table,
+	TableBody,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
+import AddPatientModal from "@/components/pages/patients/AddPatientModal";
+import PatientCard from "@/components/pages/patients/PatientCard";
+import { usePatients } from "@/lib/api/patients/usePatient";
 
 export default function PatientsPage() {
+	const { data: patients, isLoading, isError } = usePatients();
+
+	if (isError) {
+		return (
+			<div className="text-center p-4">
+				<p className="text-red-500">
+					Error loading patients. Please try again.
+				</p>
+			</div>
+		);
+	}
+
+	let content;
+	if (isLoading) {
+		content = <p className="text-gray-500 text-center">Loading...</p>;
+	} else if (patients?.length === 0) {
+		content = (
+			<div className="text-center p-4">
+				<p className="text-gray-500">No patients found.</p>
+				<p className="text-gray-500">
+					Please add some patients to get started.
+				</p>
+			</div>
+		);
+	} else {
+		content = (
+			<Table>
+				<TableHeader>
+					<TableRow>
+						<TableHead className="text-stone-900 font-semibold">
+							Name
+						</TableHead>
+						<TableHead className="text-stone-900 font-semibold">
+							Date of Birth
+						</TableHead>
+						<TableHead className="text-stone-900 font-semibold">
+							National ID
+						</TableHead>
+						<TableHead className="text-stone-900 font-semibold">
+							Actions
+						</TableHead>
+					</TableRow>
+				</TableHeader>
+				<TableBody>
+					{patients?.map((patient) => (
+						<PatientCard key={patient.id} patient={patient} />
+					))}
+				</TableBody>
+			</Table>
+		);
+	}
+
 	return (
-		<div className="p-6">
-			<h1 className="text-2xl font-bold mb-4">Patients</h1>
-			<p className="text-gray-600">This is the patients page.</p>
+		<div>
+			<div className="flex items-center justify-between mb-6">
+				<h1 className="text-2xl font-bold text-stone-900">
+					List of Patients
+					{patients && patients.length > 0 && (
+						<span className="pl-2 text-sm font-semibold text-gray-500">
+							({patients.length} patients)
+						</span>
+					)}
+				</h1>
+
+				<AddPatientModal />
+			</div>
+			{content}
 		</div>
 	);
 }
