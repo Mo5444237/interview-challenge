@@ -30,8 +30,18 @@ export class PatientService {
     return this.patientRepository.save(newPatient);
   }
 
-  async findAll(): Promise<Patient[]> {
-    return this.patientRepository.find();
+  async findAll(searchTerm: string | undefined): Promise<Patient[]> {
+    const query = this.patientRepository.createQueryBuilder('patient');
+
+    if (searchTerm) {
+      query.where(
+        'LOWER(patient.name) LIKE :searchTerm OR LOWER(patient.nationalId) LIKE :searchTerm',
+        {
+          searchTerm: `%${searchTerm.toLowerCase()}%`,
+        },
+      );
+    }
+    return query.getMany();
   }
 
   async findOne(id: string): Promise<Patient> {

@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { PatientService } from './patient.service';
 import { Patient } from './entities/patient.entity';
@@ -17,8 +18,8 @@ export class PatientController {
   constructor(private readonly patientService: PatientService) {}
 
   @Get()
-  findAll(): Promise<Patient[]> {
-    return this.patientService.findAll();
+  findAll(@Query('searchTerm') searchTerm?: string): Promise<Patient[]> {
+    return this.patientService.findAll(searchTerm);
   }
 
   @Get(':id')

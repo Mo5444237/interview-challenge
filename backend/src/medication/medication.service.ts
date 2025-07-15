@@ -12,8 +12,14 @@ export class MedicationService {
     private medicationRepository: Repository<Medication>,
   ) {}
 
-  async findAll(): Promise<Medication[]> {
-    return this.medicationRepository.find();
+  async findAll(searchTerm: string | undefined): Promise<Medication[]> {
+    const query = this.medicationRepository.createQueryBuilder('medication');
+    if (searchTerm) {
+      query.where('LOWER(medication.name) LIKE :searchTerm', {
+        searchTerm: `%${searchTerm.toLowerCase()}%`,
+      });
+    }
+    return query.getMany();
   }
 
   async finedOne(id: string): Promise<Medication> {

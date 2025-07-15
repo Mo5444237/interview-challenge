@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { MedicationService } from './medication.service';
 import { CreateMedicationDto } from './dto/create-medication.dto';
@@ -16,8 +17,8 @@ export class MedicationController {
   constructor(private readonly medicationService: MedicationService) {}
 
   @Get()
-  findAll() {
-    return this.medicationService.findAll();
+  findAll(@Query('searchTerm') searchTerm?: string) {
+    return this.medicationService.findAll(searchTerm);
   }
 
   @Get(':id')
