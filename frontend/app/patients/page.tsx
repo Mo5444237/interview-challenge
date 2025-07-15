@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import {
 	Table,
 	TableBody,
@@ -10,9 +11,31 @@ import {
 import AddPatientModal from "@/components/pages/patients/AddPatientModal";
 import PatientCard from "@/components/pages/patients/PatientCard";
 import { usePatients } from "@/lib/api/patients/usePatient";
+import { Input } from "@/components/ui/input";
+import debounce from "lodash/debounce";
 
 export default function PatientsPage() {
-	const { data: patients, isLoading, isError } = usePatients();
+	const [searchTerm, setSearchTerm] = React.useState("");
+	const [debouncedSearchTerm, setDebouncedSearchTerm] = React.useState("");
+
+	// Debounce input by 500ms
+	const debouncedSearch = React.useMemo(
+		() => debounce((val: string) => setDebouncedSearchTerm(val), 500),
+		[]
+	);
+
+	// Cleanup debounce on unmount
+	React.useEffect(() => {
+		return () => {
+			debouncedSearch.cancel();
+		};
+	}, [debouncedSearch]);
+
+	const {
+		data: patients,
+		isLoading,
+		isError,
+	} = usePatients(debouncedSearchTerm);
 
 	if (isError) {
 		return (
@@ -66,7 +89,7 @@ export default function PatientsPage() {
 
 	return (
 		<div>
-			<div className="flex items-center justify-between mb-6">
+			<div className="mb-6">
 				<h1 className="text-2xl font-bold text-stone-900">
 					List of Patients
 					{patients && patients.length > 0 && (
@@ -75,7 +98,18 @@ export default function PatientsPage() {
 						</span>
 					)}
 				</h1>
-
+			</div>
+			<div className="flex items-center justify-between mb-4">
+				<Input
+					type="text"
+					placeholder="Search patients..."
+					className="w-1/3 placeholder:font-semibold border-2"
+					onChange={(e) => {
+						setSearchTerm(e.target.value);
+						debouncedSearch(e.target.value);
+					}}
+					value={searchTerm}
+				/>
 				<AddPatientModal />
 			</div>
 			{content}
