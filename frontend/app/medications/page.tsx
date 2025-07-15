@@ -42,19 +42,19 @@ export default function MedicationsPage() {
 	} else {
 		return (
 			<>
-				<div className="mb-6">
+				<div className="mb-6 flex items-center space-x-2 flex-wrap">
 					<h1 className="text-2xl font-bold text-stone-900">
 						List of Medications
-						<span className="pl-2 text-sm font-semibold text-gray-500">
-							({medications?.length} medications)
-						</span>
 					</h1>
+					<span className="text-sm font-semibold text-gray-500">
+						({medications?.length} medications)
+					</span>
 				</div>
-				<div className="flex items-center justify-between mb-4">
+				<div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
 					<Input
 						type="text"
 						placeholder="Search medications..."
-						className="w-1/3 placeholder:font-semibold border-2"
+						className="placeholder:font-semibold border-2 w-[400px] max-w-full"
 						onChange={(e) => {
 							setSearchTerm(e.target.value);
 							debouncedSearch(e.target.value);

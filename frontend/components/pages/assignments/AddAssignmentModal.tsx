@@ -86,9 +86,9 @@ export default function AddAssignmentModal({
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Edit Assignment</DialogTitle>
+					<DialogTitle>Add New Assignment</DialogTitle>
 					<DialogDescription>
-						Update the assignment details below.
+						Fill in the details below to create a new assignment.
 					</DialogDescription>
 				</DialogHeader>
 				<form className="space-y-4">
@@ -117,7 +117,7 @@ export default function AddAssignmentModal({
 					</div>
 					<div>
 						<Label htmlFor="medication">Medication</Label>
-						<div className="mt-1 flex items-center space-x-2">
+						<div className="mt-1 flex items-center justify-center gap-2 flex-wrap">
 							<Select onValueChange={setMedicationId}>
 								<SelectTrigger className="mt-1 w-full">
 									<SelectValue placeholder="Select Medication" />
