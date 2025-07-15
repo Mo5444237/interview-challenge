@@ -55,6 +55,19 @@ export class PatientService {
 
   async remove(id: string): Promise<void> {
     const patient = await this.findOne(id);
+
+    // Check if the patient has any assignments before deletion
+    const assignments = await this.patientRepository.manager.find(
+      'Assignment',
+      {
+        where: { patient: { id: patient.id } },
+      },
+    );
+    if (assignments.length > 0) {
+      throw new ConflictException(
+        `Cannot delete patient, please remove assignments first.`,
+      );
+    }
     await this.patientRepository.remove(patient);
   }
 }

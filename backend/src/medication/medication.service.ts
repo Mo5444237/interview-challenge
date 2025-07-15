@@ -42,6 +42,15 @@ export class MedicationService {
 
   async remove(id: string): Promise<void> {
     const medication = await this.finedOne(id);
+    const assignments = await this.medicationRepository.manager.find(
+      'Assignment',
+      { where: { medication: { id: medication.id } } },
+    );
+    if (assignments.length > 0) {
+      throw new NotFoundException(
+        `Cannot delete medication, it is assigned to one or more patients.`,
+      );
+    }
     await this.medicationRepository.remove(medication);
   }
 }
