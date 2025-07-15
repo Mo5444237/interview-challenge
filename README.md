@@ -1,83 +1,149 @@
-# 🚀 Oxyera Async Interview Challenge
+# 💊 Oxyera Medication Tracker – Async Challenge Submission
 
-Hi! 👋 Welcome to the Oxyera async technical challenge. This test will help us evaluate your independence, code quality, organization, and technical decisions without ambiguity, so you can focus on delivering your best work.
-
----
-
-## 🎯 The Challenge
-
-### 📝 Description
-
-In this async challenge, you will build a full-stack mini-app to manage patients, medications, and their treatment assignments for a digital health workflow.
-
-You will implement CRUD APIs using NestJS with a SQLite database (already configured) and a minimal Next.js frontend to interact with these APIs. A patient can have multiple medication assignments, and you will implement logic to calculate the remaining days of each treatment automatically.
-
-The goal is to evaluate your ability to:
-
-- Deliver clear, scalable, maintainable code.
-
-- Handle clean API design and testing.
-
-- Build a simple, functional UI connected to your backend.
-
-- Manage your workflow independently with clear commits.
-
-This test simulates real work at Oxyera: you will receive a task, execute it end-to-end, and submit it for review, demonstrating your ownership and technical skills without requiring continuous oversight.
-
-### ✅ What will you implement 
-
-✅ **Backend (NestJS, runs on port **`8080`**)**
-
-- CRUD endpoints for:
-  - `Patient` (name, date of birth)
-  - `Medication` (name, dosage, frequency)
-  - `Assignment` (assign a medication to a patient with a start date and number of days)
-- **A patient can have multiple medication assignments**.
-- Endpoint to calculate and return **remaining days of treatment** for each assignment (based on start date + days - today).
-- Endpoints should:
-  - Return clear, structured JSON.
-  - Validate input (e.g., required fields, valid dates).
-  - Return appropriate HTTP status codes.
-  - Be covered with at least **one unit test for calculation logic**.
-
-✅ **Frontend (Next.js, runs on port **`3000`**)**
-
-- Multiple pages with Tailwind for styling.
-- Features:
-  - List patients with their assignments and remaining treatment days.
-  - Forms to create:
-    - Patients
-    - Medications
-    - Assign medications to patients.
-- Display **remaining treatment days clearly per assignment**.
-- Use a **global constant for backend URL** for clarity.
-
-✅ Use the **SQLite DB already configured in** `/backend/database.sqlite`.
-
-✅ Commit clearly and progressively, showing your reasoning in your commit messages.
-
-✅ Use **TypeScript** everywhere.
-
-✅ Structure your code cleanly to reflect scalability.
+This is my complete solution to the Oxyera async full-stack technical challenge. The application helps manage patients, medications, and their treatment assignments.
 
 ---
 
-## ⚡ What We’re Evaluating
+## ✅ Features Implemented
 
-- Clear and scalable folder structure.
-- Proper API design and HTTP handling.
-- Input validation and error handling.
-- Consistent, readable code.
-- Use of TypeScript types for safety.
-- Test quality and coverage of core logic.
-- Ability to deliver a working feature with clean commits.
-- UI clarity and correct functional connection with your backend.
+### 🏥 Backend (NestJS + SQLite)
+
+* Built with **NestJS**, **TypeORM**, and **SQLite**.
+* CRUD APIs for:
+
+  * **Patients**: name, date of birth.
+  * **Medications**: name, dosage, frequency.
+  * **Assignments**: link medications to patients with start date and treatment duration.
+* Additional Features:
+
+  * **Remaining Treatment Days**: Automatically calculated based on `(startDate + days - today)`.
+  * **Seeder Script** to populate the database with sample data.
+  * **Validation** with DTOs.
+  * **Unit Test** for the remaining days calculation.
+  * Proper **HTTP status codes** and clear **JSON responses**.
+
+### 🎨 Frontend (Next.js + Tailwind + React Query + shadcn/ui)
+
+* Built using **Next.js (App Router)**.
+* Styled with **Tailwind CSS** and **shadcn/ui** components.
+* API calls managed using **React Query (TanStack Query)**.
+* Pages:
+
+  * Patients (List/Create/Update/Delete/Search)
+  * Medications (List/Create/Update/Delete/Search)
+  * Assignments (List/Create/Update/Delete)
+* Additional Features:
+
+  * **Responsive Design** for desktop and mobile.
+  * **Search Functionality** for filtering patients.
+  * Reusable modal and form components.
 
 ---
 
-## 🚀 Running the Project
+## 🛠️ Tech Stack & Tools
 
-**Backend:**
+* **Backend**: NestJS, TypeORM, SQLite, class-validator, Jest
+* **Frontend**: Next.js, Tailwind CSS, shadcn/ui, React Query, TypeScript
+* **Dev Tools**: ESLint, Prettier
+
+---
+
+## 📂 Project Structure
+
+### Backend (`/backend`)
+
+```
+src/
+├── assignment/
+│   ├── dto/
+│   ├── entities/
+│   ├── types/
+│   ├── assignment.controller.ts
+│   ├── assignment.module.ts
+│   ├── assignment.service.spec.ts
+│   └── assignment.service.ts
+├── medication/
+│   ├── dto/
+│   ├── entities/
+│   ├── medication.controller.ts
+│   ├── medication.module.ts
+│   └── medication.service.ts
+├── patient/
+│   ├── dto/
+│   │   ├── create-patient.dto.ts
+│   │   └── update-patient.dto.ts
+│   ├── entities/
+│   │   └── patient.entity.ts
+│   ├── patient.controller.ts
+│   ├── patient.module.ts
+│   └── patient.service.ts
+├── app.controller.spec.ts
+├── app.controller.ts
+├── app.module.ts
+├── app.service.ts
+├── main.ts
+├── seeder.ts
+
+test/
+
+```
+
+### Frontend (`/frontend`)
+
+```
+app/
+├── assignments/
+│   ├── [patientId]/
+│   │   └── page.tsx
+│   └── page.tsx
+├── medications/
+│   └── page.tsx
+├── patients/
+│   └── page.tsx
+├── favicon.ico
+├── globals.css
+├── layout.tsx
+├── page.tsx
+└── providers.tsx
+
+components/
+├── pages/
+│   ├── assignments/
+│   ├── medications/
+│   └── patients/
+├── sidebar/
+└── ui/
+
+lib/
+├── api/
+│   ├── assignments/
+│   │   ├── useAssignment.ts
+│   │   ├── useCreateAssignment.ts
+│   │   ├── useDeleteAssignment.ts
+│   │   └── useUpdateAssignment.ts
+│   ├── medications/
+│   │   ├── useCreateMedication.ts
+│   │   ├── useDeleteMedication.ts
+│   │   ├── useMedication.ts
+│   │   └── useUpdateMedication.ts
+│   ├── patients/
+│   │   ├── useCreatePatient.ts
+│   │   ├── useDeletePatient.ts
+│   │   ├── usePatient.ts
+│   │   └── useUpdatePatient.ts
+│   └── fetcher.ts
+├── utils.ts
+
+types/
+utils/
+public/
+.env
+```
+
+
+## ▶️ Running the Project
+
+### Backend
 
 ```bash
 cd backend
@@ -85,9 +151,9 @@ npm install
 npm run start:dev
 ```
 
-Access on `http://localhost:8080`.
+Visit: [http://localhost:8080](http://localhost:8080)
 
-**Frontend:**
+### Frontend
 
 ```bash
 cd frontend
@@ -95,19 +161,28 @@ npm install
 npm run dev
 ```
 
-Access on `http://localhost:3000`.
-
-The SQLite database is located at `backend/database.sqlite`.
+Visit: [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 📩 Submission
+## 🌱 Seeder Script
 
-✅ Complete by one week after you recieved the assignment. 
+To populate the SQLite database with test data:
 
-✅ Push to your your personal forked repo. 
+```bash
+npm run seed
+```
 
-✅ Email your repo link to [dev@oxyera.com](mailto\:dev@oxyera.com).
+---
 
-Thank you for your interest in Oxyera. We look forward to reviewing your structured, clear, and working solution!
+## 🔍 Notes
 
+* Fully mobile-friendly UI.
+* Accessible components using `shadcn/ui` and Radix UI.
+* Optimistic updates and loading indicators via React Query.
+
+---
+
+## 📧 Submission
+
+This repository is my final submission for the async Oxyera challenge.
