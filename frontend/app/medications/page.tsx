@@ -23,8 +23,21 @@ export default function MedicationsPage() {
 		};
 	}, [debouncedSearch]);
 
-	const { data: medications, isLoading } =
-		useMedications(debouncedSearchTerm);
+	const {
+		data: medications,
+		isLoading,
+		isError,
+	} = useMedications(debouncedSearchTerm);
+
+	if (isError) {
+		return (
+			<div className="flex flex-col items-center justify-center space-y-2 h-full">
+				<p className="text-red-500">
+					Error loading medications. Please try again.
+				</p>
+			</div>
+		);
+	}
 
 	if (isLoading) {
 		return (
@@ -32,11 +45,12 @@ export default function MedicationsPage() {
 		);
 	} else if (medications?.length === 0) {
 		return (
-			<div className="text-center p-4">
+			<div className="flex flex-col items-center justify-center space-y-2 h-full">
 				<p className="text-gray-500">No medications found.</p>
 				<p className="text-gray-500">
 					Please add some medications to get started.
 				</p>
+				<AddMedicationModel />
 			</div>
 		);
 	} else {

@@ -1,8 +1,11 @@
+const BASE_URL =
+	process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080";
+
 export async function apiFetch<T>(
 	url: string,
 	options?: RequestInit
 ): Promise<T> {
-	const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${url}`, {
+	const res = await fetch(`${BASE_URL}${url}`, {
 		headers: { "Content-Type": "application/json" },
 		...options,
 	});

@@ -47,7 +47,7 @@ export class AssignmentService {
     });
 
     if (!assignments.length) {
-      throw new NotFoundException('No assignments found');
+      return [];
     }
 
     return assignments.map((assignment) => ({

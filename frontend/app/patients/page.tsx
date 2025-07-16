@@ -39,7 +39,7 @@ export default function PatientsPage() {
 
 	if (isError) {
 		return (
-			<div className="text-center p-4">
+			<div className="flex flex-col items-center justify-center space-y-2 h-full">
 				<p className="text-red-500">
 					Error loading patients. Please try again.
 				</p>
@@ -47,72 +47,68 @@ export default function PatientsPage() {
 		);
 	}
 
-	let content;
 	if (isLoading) {
-		content = <p className="text-gray-500 text-center">Loading...</p>;
+		return <p className="text-gray-500 text-center">Loading...</p>;
 	} else if (patients?.length === 0) {
-		content = (
-			<div className="text-center p-4">
+		return (
+			<div className="flex flex-col items-center justify-center space-y-2 h-full">
 				<p className="text-gray-500">No patients found.</p>
 				<p className="text-gray-500">
 					Please add some patients to get started.
 				</p>
+				<AddPatientModal />
 			</div>
 		);
 	} else {
-		content = (
-			<Table>
-				<TableHeader>
-					<TableRow>
-						<TableHead className="text-stone-900 font-semibold">
-							Name
-						</TableHead>
-						<TableHead className="text-stone-900 font-semibold">
-							Date of Birth
-						</TableHead>
-						<TableHead className="text-stone-900 font-semibold">
-							National ID
-						</TableHead>
-						<TableHead className="text-stone-900 font-semibold">
-							Actions
-						</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{patients?.map((patient) => (
-						<PatientCard key={patient.id} patient={patient} />
-					))}
-				</TableBody>
-			</Table>
+		return (
+			<div>
+				<div className="mb-6 flex items-center space-x-2 flex-wrap">
+					<h1 className="text-2xl font-bold text-stone-900">
+						List of Patients
+					</h1>
+					{patients && patients.length > 0 && (
+						<span className="text-sm font-semibold text-gray-500">
+							({patients.length} patients)
+						</span>
+					)}
+				</div>
+				<div className="flex items-center justify-between mb-4 flex-wrap gap-4">
+					<Input
+						type="text"
+						placeholder="Search patients..."
+						className="placeholder:font-semibold border-2 w-[400px] max-w-full"
+						onChange={(e) => {
+							setSearchTerm(e.target.value);
+							debouncedSearch(e.target.value);
+						}}
+						value={searchTerm}
+					/>
+					<AddPatientModal />
+				</div>
+				<Table>
+					<TableHeader>
+						<TableRow>
+							<TableHead className="text-stone-900 font-semibold">
+								Name
+							</TableHead>
+							<TableHead className="text-stone-900 font-semibold">
+								Date of Birth
+							</TableHead>
+							<TableHead className="text-stone-900 font-semibold">
+								National ID
+							</TableHead>
+							<TableHead className="text-stone-900 font-semibold">
+								Actions
+							</TableHead>
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{patients?.map((patient) => (
+							<PatientCard key={patient.id} patient={patient} />
+						))}
+					</TableBody>
+				</Table>
+			</div>
 		);
 	}
-
-	return (
-		<div>
-			<div className="mb-6 flex items-center space-x-2 flex-wrap">
-				<h1 className="text-2xl font-bold text-stone-900">
-					List of Patients
-				</h1>
-				{patients && patients.length > 0 && (
-					<span className="text-sm font-semibold text-gray-500">
-						({patients.length} patients)
-					</span>
-				)}
-			</div>
-			<div className="flex items-center justify-between mb-4 flex-wrap gap-4">
-				<Input
-					type="text"
-					placeholder="Search patients..."
-					className="placeholder:font-semibold border-2 w-[400px] max-w-full"
-					onChange={(e) => {
-						setSearchTerm(e.target.value);
-						debouncedSearch(e.target.value);
-					}}
-					value={searchTerm}
-				/>
-				<AddPatientModal />
-			</div>
-			{content}
-		</div>
-	);
 }
