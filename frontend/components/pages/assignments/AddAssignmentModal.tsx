@@ -119,7 +119,7 @@ export default function AddAssignmentModal({
 						<Label htmlFor="medication">Medication</Label>
 						<div className="mt-1 flex items-center justify-center gap-2 flex-wrap">
 							<Select onValueChange={setMedicationId}>
-								<SelectTrigger className="mt-1 w-full">
+								<SelectTrigger className="mt-1 flex-1">
 									<SelectValue placeholder="Select Medication" />
 								</SelectTrigger>
 								<SelectContent>
@@ -142,10 +142,12 @@ export default function AddAssignmentModal({
 									</SelectGroup>
 								</SelectContent>
 							</Select>
-							<span className="text-gray-500 text-xs font-semibold">
-								OR
-							</span>
-							<AddMedicationModel displayTitle="add new" />
+							<div className="flex items-center space-x-2">
+								<span className="text-gray-500 text-xs font-semibold">
+									OR
+								</span>
+								<AddMedicationModel displayTitle="add new" />
+							</div>
 						</div>
 					</div>
 				</form>
